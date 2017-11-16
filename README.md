@@ -11,3 +11,5 @@ Sample usage [output the .js file and start listening]:
 
 mkdir output
 go run main.go -delay 2000 -host 'http://localhost:1337/renderer' -listen :1337 -auth 'lalal' -dir output > ~/angular5/shop/src/assets/postrender.js
+
+Licensed under Apache v2.0
