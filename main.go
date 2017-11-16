@@ -12,20 +12,17 @@ import (
 )
 
 type Config struct {
-    Delay int64
-    To string
+    Delay         int64
+    To            string
     Authorization string
 }
 
-
-
-func handlePost (res http.ResponseWriter, req *http.Request) {
+func handlePost(res http.ResponseWriter, req *http.Request) {
     res.Header().Set("Access-Control-Allow-Origin", "*")
     res.WriteHeader(http.StatusOK)
     log.Println(req)
     return
 }
-
 
 func main() {
 
@@ -34,15 +31,13 @@ func main() {
     auth := flag.String("auth", "", "Auth string for Authorization header")
     listen := flag.String("listen", "", "Port on which to listen for incomming requests, ie: :1337")
 
-
     flag.Parse()
     if len(*to) <= 0 {
         flag.Usage()
         os.Exit(1)
     }
 
-
-    c := Config{ *delay, *to, *auth }
+    c := Config{*delay, *to, *auth}
 
     tcontent, err := ioutil.ReadFile("template.txt")
     if err != nil {
@@ -59,7 +54,6 @@ func main() {
         log.Fatalln(err)
     }
 
-
     if len(*listen) > 0 {
 
         r := mux.NewRouter()
@@ -70,7 +64,7 @@ func main() {
             WriteTimeout: time.Duration(*delay) * time.Millisecond,
             ReadTimeout:  time.Duration(*delay) * time.Millisecond,
             Addr:         *listen,
-            Handler: r,
+            Handler:      r,
         }
 
         log.Fatalln(server.ListenAndServe())
