@@ -33,24 +33,23 @@ var c = Config{}
 
 // os.MkDirAll Not working?
 func MkdirR(path []string) {
-
     for k, _ := range (path) {
         p, _ := filepath.Abs(filepath.Join(path[:k+1]...))
         log.Println("Creating: ", p)
         os.Mkdir(p, 0770)
     }
-
 }
 
 func WriteData(d *Data) {
     c.Lock()
-    defer c.Unlock()
+    outdir := c.Output
+    c.Unlock()
 
     // Insecure, fix
     path := strings.Replace(d.Fullpath, "..", "", -1)
 
     paths := strings.Split(path, "/")
-    paths = append([]string{c.Output}, paths...)
+    paths = append([]string{outdir}, paths...)
 
     MkdirR(paths)
 
@@ -61,7 +60,6 @@ func WriteData(d *Data) {
     if err != nil {
         log.Println(err)
     }
-
 }
 
 func handlePost(res http.ResponseWriter, req *http.Request) {
